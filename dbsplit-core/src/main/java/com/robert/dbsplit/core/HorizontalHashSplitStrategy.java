@@ -22,7 +22,7 @@ public class HorizontalHashSplitStrategy implements SplitStrategy {
 	public int getDbNo(Object splitKey) {
 		return getTableNo(splitKey) / tableNum;
 	}
-
+//计算哈希
 	public int getTableNo(Object splitKey) {
 		int hashCode = calcHashCode(splitKey);
 		return hashCode % (portNum * dbNum * tableNum);

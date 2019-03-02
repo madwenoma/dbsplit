@@ -135,8 +135,7 @@ public class SimpleSplitJdbcTemplate extends SplitJdbcTemplate implements
 				"SimpleSplitJdbcTemplate.doSelect, the split key: {}, the clazz: {}, where {} = {}.",
 				splitKey, clazz, name, value);
 
-		SplitTable splitTable = splitTablesHolder.searchSplitTable(OrmUtil
-				.javaClassName2DbTableName(clazz.getSimpleName()));
+		SplitTable splitTable = splitTablesHolder.searchSplitTable(OrmUtil.javaClassName2DbTableName(clazz.getSimpleName()));
 
 		SplitStrategy splitStrategy = splitTable.getSplitStrategy();
 		List<SplitNode> splitNdoes = splitTable.getSplitNodes();
@@ -158,13 +157,12 @@ public class SimpleSplitJdbcTemplate extends SplitJdbcTemplate implements
 		SqlRunningBean srb = SqlUtil.generateSelectSql(name, value, clazz,
 				dbPrefix, tablePrefix, dbNo, tableNo);
 
-		log.debug(
-				"SimpleSplitJdbcTemplate.doSelect, the split SQL: {}, the split params: {}.",
+		log.debug("SimpleSplitJdbcTemplate.doSelect, the split SQL: {}, the split params: {}.",
 				srb.getSql(), srb.getParams());
+
 		T bean = jt.queryForObject(srb.getSql(), srb.getParams(),
 				new RowMapper<T>() {
-					public T mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
+					public T mapRow(ResultSet rs, int rowNum) throws SQLException {
 						return OrmUtil.convertRow2Bean(rs, clazz);
 					}
 				});
@@ -178,16 +176,16 @@ public class SimpleSplitJdbcTemplate extends SplitJdbcTemplate implements
 		log.debug(
 				"SimpleSplitJdbcTemplate.doUpdate, the split key: {}, the clazz: {}, the updateOper: {}, the split bean: {}, the ID: {}.",
 				splitKey, clazz, updateOper, bean, id);
-
+//先查到table
 		SplitTable splitTable = splitTablesHolder.searchSplitTable(OrmUtil
 				.javaClassName2DbTableName(clazz.getSimpleName()));
-
+//策略
 		SplitStrategy splitStrategy = splitTable.getSplitStrategy();
-		List<SplitNode> splitNdoes = splitTable.getSplitNodes();
+		List<SplitNode> splitNdoes = splitTable.getSplitNodes();//有几个splitnode 一主一从2个节点
 
 		String dbPrefix = splitTable.getDbNamePrefix();
 		String tablePrefix = splitTable.getTableNamePrefix();
-
+//根据策略查找到node编号
 		int nodeNo = splitStrategy.getNodeNo(splitKey);
 		int dbNo = splitStrategy.getDbNo(splitKey);
 		int tableNo = splitStrategy.getTableNo(splitKey);
@@ -198,7 +196,7 @@ public class SimpleSplitJdbcTemplate extends SplitJdbcTemplate implements
 
 		SplitNode sn = splitNdoes.get(nodeNo);
 		JdbcTemplate jt = getWriteJdbcTemplate(sn);
-
+		//开始通过反射取bean的字段和属性值，拼接sql
 		SqlRunningBean srb = null;
 		switch (updateOper) {
 		case INSERT:

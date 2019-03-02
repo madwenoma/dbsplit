@@ -83,19 +83,14 @@ public abstract class OrmUtil {
 			for (int i = 1; i <= rsmd.getColumnCount(); i++) {
 				int columnType = rsmd.getColumnType(i);
 				String columnName = rsmd.getColumnName(i);
-				String fieldName = OrmUtil
-						.dbFieldName2JavaFieldName(columnName);
-				String setterName = ReflectionUtil
-						.fieldName2SetterName(fieldName);
+				String fieldName = OrmUtil.dbFieldName2JavaFieldName(columnName);
+				String setterName = ReflectionUtil.fieldName2SetterName(fieldName);
 
 				if (columnType == Types.SMALLINT) {
-					Method setter = ReflectionUtil.searchEnumSetter(clazz,
-							setterName);
+					Method setter = ReflectionUtil.searchEnumSetter(clazz, setterName);
 					Class<?> enumParamClazz = setter.getParameterTypes()[0];
-					Method enumParseFactoryMethod = enumParamClazz.getMethod(
-							"parse", int.class);
-					Object value = enumParseFactoryMethod.invoke(
-							enumParamClazz, rs.getInt(i));
+					Method enumParseFactoryMethod = enumParamClazz.getMethod("parse", int.class);
+					Object value = enumParseFactoryMethod.invoke(enumParamClazz, rs.getInt(i));
 
 					setter.invoke(bean, value);
 				} else {
@@ -135,11 +130,9 @@ public abstract class OrmUtil {
 
 			return bean;
 		} catch (Exception e) {
-			log.error("Fail to operator on ResultSet metadata for clazz {}.",
-					clazz);
+			log.error("Fail to operator on ResultSet metadata for clazz {}.", clazz);
 			log.error("Exception--->", e);
-			throw new IllegalStateException(
-					"Fail to operator on ResultSet metadata.", e);
+			throw new IllegalStateException("Fail to operator on ResultSet metadata.", e);
 		}
 	}
 }

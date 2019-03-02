@@ -28,8 +28,7 @@ public class SplitTablesHolder {
 		for (int i = 0; i < splitTables.size(); i++) {
 			SplitTable st = splitTables.get(i);
 
-			String key = constructKey(st.getDbNamePrefix(),
-					st.getTableNamePrefix());
+			String key = constructKey(st.getDbNamePrefix(),	st.getTableNamePrefix());
 			splitTablesMapFull.put(key, st);
 
 			splitTablesMap.put(st.getTableNamePrefix(), st);

@@ -44,11 +44,9 @@ public abstract class SqlUtil {
 		sb.append("insert into ");
 
 		if (StringUtils.isEmpty(tablePrefix))
-			tablePrefix = OrmUtil.javaClassName2DbTableName(bean.getClass()
-					.getSimpleName());
+			tablePrefix = OrmUtil.javaClassName2DbTableName(bean.getClass().getSimpleName());
 
-		sb.append(getQualifiedTableName(databasePrefix, tablePrefix,
-				databseIndex, tableIndex));
+		sb.append(getQualifiedTableName(databasePrefix, tablePrefix, databseIndex, tableIndex));
 
 		sb.append("(");
 
@@ -149,11 +147,9 @@ public abstract class SqlUtil {
 		sb.append("delete from ");
 
 		if (StringUtils.isEmpty(tablePrefix))
-			tablePrefix = OrmUtil.javaClassName2DbTableName(clazz
-					.getSimpleName());
+			tablePrefix = OrmUtil.javaClassName2DbTableName(clazz.getSimpleName());
 
-		sb.append(getQualifiedTableName(databasePrefix, tablePrefix,
-				databaseIndex, tableIndex));
+		sb.append(getQualifiedTableName(databasePrefix, tablePrefix, databaseIndex, tableIndex));
 
 		sb.append(" where ID = ?");
 
@@ -184,11 +180,9 @@ public abstract class SqlUtil {
 		sb.append("select * from ");
 
 		if (StringUtils.isEmpty(tablePrefix))
-			tablePrefix = OrmUtil.javaClassName2DbTableName(clazz
-					.getSimpleName());
+			tablePrefix = OrmUtil.javaClassName2DbTableName(clazz.getSimpleName());
 
-		sb.append(getQualifiedTableName(databasePrefix, tablePrefix,
-				databaseIndex, tableIndex));
+		sb.append(getQualifiedTableName(databasePrefix, tablePrefix, databaseIndex, tableIndex));
 
 		sb.append(" where ");
 		sb.append(name).append("=?");
@@ -206,8 +200,7 @@ public abstract class SqlUtil {
 
 	public static <T> SqlRunningBean generateSelectSql(String name,
 			Object value, Class<T> clazz, String databasePrefix) {
-		return generateSelectSql(name, value, clazz, databasePrefix, null, -1,
-				-1);
+		return generateSelectSql(name, value, clazz, databasePrefix, null, -1,-1);
 	}
 
 	public static <T> SqlRunningBean generateSelectSql(String name,
@@ -224,10 +217,8 @@ public abstract class SqlUtil {
 		sb.append("select * from ");
 
 		if (StringUtils.isEmpty(tablePrefix))
-			tablePrefix = OrmUtil.javaClassName2DbTableName(bean.getClass()
-					.getSimpleName());
-		sb.append(getQualifiedTableName(databasePrefix, tablePrefix,
-				databaseIndex, tableIndex));
+			tablePrefix = OrmUtil.javaClassName2DbTableName(bean.getClass().getSimpleName());
+		sb.append(getQualifiedTableName(databasePrefix, tablePrefix,databaseIndex, tableIndex));
 
 		sb.append(" where ");
 
